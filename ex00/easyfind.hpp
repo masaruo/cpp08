@@ -6,14 +6,36 @@
 /*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:00:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/04/18 10:03:53 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/04/25 21:27:09 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+#include <algorithm>
+#include <stdexcept>
 
 template <typename T>
-T	easyfind(T type, int idx)
+int	easyfind(T const &container, int target_n)
 {
-	
+	typename T::const_iterator	it = container.begin();
+	typename T::const_iterator	end = container.end();
+	typename T::const_iterator	loc;
+
+	loc = std::find(it, end, target_n);
+	if (loc == end)
+		throw (std::out_of_range("index is out of range."));
+	else
+		return (*loc);
+
+	// while (it < end)
+	// {
+	// 	if (*it == target_n)
+	// 		break ;
+	// 	it++;
+	// }
+	// if (it == container.end())
+	// 	throw (std::out_of_range("target number could not be found in the container."));
+	// return (*it);
 }
+
+// #include "easyfind.tpp"
