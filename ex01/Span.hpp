@@ -6,7 +6,7 @@
 /*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:32:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/04/26 15:15:56 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/04/27 18:44:16 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 class Span
 {
-enum type_e { shortest_, longest_, validate_};
 private:
 	unsigned int		max_;
 	unsigned int		idx_;
@@ -26,18 +25,17 @@ private:
 	Span();//隠蔽されたコンストラクタ
 	//helper funcs
 	void		assert_has_capacity(void) const;
-	void		assert_has_valid_elems(void);
-	std::size_t	get_long_span(type_e) const;
-	std::size_t	get_short_span(void) const;
+	void		assert_has_valid_elems(void) const;
+	void		assert_int_overflow(int min, int max) const;
 public:
 	Span(unsigned int max_size);
 	Span(Span const &rhs);
 	~Span();
 	Span &operator=(Span const &rhs);
-	void		addNumber(int num_to_add);
-	void		addNumber(int min, int max);
-	std::size_t	shortestSpan(void);
-	std::size_t	longestSpan(void);
+	void	addNumber(int num_to_add);
+	void	addNumber(int min, int max);
+	int		shortestSpan(void);
+	int		longestSpan(void);
 	class SpanIsFullException : public std::exception
 	{
 	public:

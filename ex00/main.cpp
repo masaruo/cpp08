@@ -6,7 +6,7 @@
 /*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:53:18 by mogawa            #+#    #+#             */
-/*   Updated: 2024/04/26 09:04:06 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/04/27 18:09:39 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <deque>
 #include <iostream>
 
-int const SIZE = 2;
+int const SIZE = 3;
 
 template <typename T>
 void	init_(T &container)

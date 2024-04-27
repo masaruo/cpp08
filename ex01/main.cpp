@@ -6,7 +6,7 @@
 /*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 12:05:37 by mogawa            #+#    #+#             */
-/*   Updated: 2024/04/26 16:22:14 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/04/27 20:51:54 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ void	testVecSize0AndAddElem()
 
 void	TestIntMaxMin()
 {
-	Span sp = Span(2);
+	Span sp = Span(4);
 	
 	sp.addNumber(std::numeric_limits<int>::max());
 	sp.addNumber(std::numeric_limits<int>::min());
+	sp.addNumber(41);
+	sp.addNumber(-41);
 	std::cout << sp << std::endl;
 }
 
@@ -71,15 +73,19 @@ int	main(void)
 	{
 		test1();
 		// testVecSize0AndAddElem();
-		// TestIntMaxMin();å
+		// TestIntMaxMin();
 		// testOnlySameNum();
-		// adhocTest(-100, 100, 10000);
+		adhocTest(0, INTMAX, 10000);
 	}
 	catch (Span::SpanIsFullException const &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
 	catch (Span::SpanHasNoTwoElemsException const &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+	catch (std::overflow_error &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}

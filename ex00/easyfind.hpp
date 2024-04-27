@@ -6,7 +6,7 @@
 /*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:00:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/04/25 21:27:09 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/04/27 18:05:28 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,4 @@ int	easyfind(T const &container, int target_n)
 		throw (std::out_of_range("index is out of range."));
 	else
 		return (*loc);
-
-	// while (it < end)
-	// {
-	// 	if (*it == target_n)
-	// 		break ;
-	// 	it++;
-	// }
-	// if (it == container.end())
-	// 	throw (std::out_of_range("target number could not be found in the container."));
-	// return (*it);
 }
-
-// #include "easyfind.tpp"
