@@ -6,7 +6,7 @@
 /*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:24:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/04/27 17:56:29 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/04/27 20:58:40 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ public:
 	{
 		if (this != &rhs)
 		{
-			std::stack<T>::operator = (rhs);
+			std::stack<T>::operator = (rhs);//!括弧無いと動かない！operator=は関数！
 		}
 		return (*this);
 	}
@@ -34,11 +34,12 @@ public:
 	typedef typename std::stack<T>::container_type::iterator iterator;
 	iterator	begin(void)
 	{
-		return (this->c.begin());
+		return (this->c.begin());//! std::stack<T>::begin()
 	}
 	iterator	end(void)
 	{
 		return (this->c.end());
+		// return (std::stack<T>::end());こっちのほうがわかりやすいかな？
 	}
 
 	typedef typename std::stack<T>::container_type::reverse_iterator reverse_iterator;
