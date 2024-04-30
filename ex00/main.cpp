@@ -6,7 +6,7 @@
 /*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:53:18 by mogawa            #+#    #+#             */
-/*   Updated: 2024/04/27 18:09:39 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/05/01 00:08:59 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,79 @@
 #include <list>
 #include <deque>
 #include <iostream>
+#include <string>
 
-int const SIZE = 3;
+int const SIZE = 10;
 
 template <typename T>
 void	init_(T &container)
 {
-	typename T::iterator	start = container.begin();
-	typename T::iterator	end = container.end();
-	int	i = 1;
-	while (start != end)
+	for (int i = 0; i < SIZE; i++)
 	{
-		*start = i;
-		i++;
-		start++;
+		container.push_back(i);
 	}
+}
+
+template <typename T>
+void	print(T const &c, std::string const &msg)
+{
+	std::cout << msg << std::endl;
+	typename T::const_iterator it = c.begin();
+	for (; it != c.end(); it++)
+	{
+		std::cout << *it << " | ";
+	}
+	std::cout << std::endl;
 }
 
 int main(void)
 {
-	std::vector<int> vec(SIZE);
-	std::list<int> lst(SIZE);
-	std::deque<int> dq(SIZE);
+	std::vector<int> vec;
+	std::list<int> lst;
+	std::deque<int> dq;
 
 	init_(vec);
 	init_(lst);
 	init_(dq);
-	try
-	{
-		int vec_res = easyfind<std::vector<int> >(vec, 1);
-		std::cout << "vec res = " << vec_res << std::endl;
-		int	lst_res = easyfind<std::list<int> >(lst, 2);
-		std::cout << "lst res = " << lst_res << std::endl;
-		int dq_res = easyfind<std::deque<int> >(dq, 3);
-		std::cout << "dq res = " << dq_res << std::endl;
-	}
-	catch (std::exception const &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-	catch (...)
-	{
-		std::cerr << "some other error." << std::endl;
-	}
+
+	std::vector<int>::iterator vec_iter = easyfind(vec, 5);
+	std::cout << *vec_iter << std::endl;
+	print(vec, "vector check");
+	std::vector<int> const vec_const(vec);
+	print(vec_const, "vec_const copy constructor");
+	*vec_iter = -100000;
+	print(vec, "after amend of vec");
+	std::cout << vec_iter - vec.begin() << std::endl;
+
+	// list
+	std::cout << "lst check" << std::endl;
+	std::list<int>::iterator lst_iter = easyfind(lst, 1);
+	std::cout << *lst_iter << std::endl;
+	print(vec, "lst check");
+	std::list<int> const lst_const(lst);
+	print(lst_const, "lst_const copy constructor");
+	*lst_iter = -100000;
+	print(lst, "after amend");
+	// std::cout << lst_iter - lst.begin() << std::endl;//error list does not have -
+
+	// deque
+	std::cout << std::endl;
+	std::deque<int>::iterator dq_iter = easyfind(dq, 8);
+	std::cout << *dq_iter << std::endl;
+	print(dq, "dq check");
+	std::deque<int> const dq_const(dq);
+	print(dq_const, "const copy constructor");
+	*dq_iter = -100000;
+	print(dq, "after amend of dq");
+	std::cout << dq_iter - dq.begin() << std::endl;
+
+	// STL play
+	
+
+	
+
+	
+
+
 	return (0);
 }
