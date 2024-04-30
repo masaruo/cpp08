@@ -6,7 +6,7 @@
 /*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:53:18 by mogawa            #+#    #+#             */
-/*   Updated: 2024/05/01 00:08:59 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/05/01 00:10:03 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,6 @@ int main(void)
 	*dq_iter = -100000;
 	print(dq, "after amend of dq");
 	std::cout << dq_iter - dq.begin() << std::endl;
-
-	// STL play
-	
-
-	
-
-	
-
 
 	return (0);
 }
