@@ -3,99 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
+/*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 12:05:37 by mogawa            #+#    #+#             */
-/*   Updated: 2024/04/27 20:51:54 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/05/01 18:25:11 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
 #include <iostream>
+#include <limits>
+#include <vector>
 
-int const INTMAX = std::numeric_limits<int>::max();
-int const INTMIN = std::numeric_limits<int>::min();
+int const int_max = std::numeric_limits<int>::max();
+int const int_min = std::numeric_limits<int>::min();
 
-void	test1(void)
+template <typename Iter>
+void print(Iter first, Iter last)
 {
-		Span sp = Span(5);
+	for (Iter i = first; i != last; i++)
+	{
+		std::cout << "[" <<  *i << "]";
+	}
+	std::cout << std::endl;
+}
 
+int main(void)
+{
+
+	try
+	{
+		Span<int>	sp(5);
+		std::cout << "assignment example and adding more than size" << std::endl;
 		sp.addNumber(6);
 		sp.addNumber(3);
 		sp.addNumber(17);
 		sp.addNumber(9);
 		sp.addNumber(11);
-
-		std::cout << sp << std::endl;
-}
-
-void	testVecSize0AndAddElem()
-{
-	Span sp = Span(0);
-
-	sp.addNumber(1);
-	std::cout << sp << std::endl;
-}
-
-void	TestIntMaxMin()
-{
-	Span sp = Span(4);
-	
-	sp.addNumber(std::numeric_limits<int>::max());
-	sp.addNumber(std::numeric_limits<int>::min());
-	sp.addNumber(41);
-	sp.addNumber(-41);
-	std::cout << sp << std::endl;
-}
-
-void	testOnlySameNum()
-{
-	Span sp = Span(4);
-
-	sp.addNumber(2);
-	sp.addNumber(2);
-	sp.addNumber(2);
-	sp.addNumber(2);
-	std::cout << sp << std::endl;
-}
-
-void	adhocTest(int min, int max, unsigned int size)
-{
-	Span sp = Span(size);
-
-	sp.addNumber(min, max);
-	std::cout << sp << std::endl;
-}
-
-int	main(void)
-{
+		sp.addNumber(12);//error there is no room to add
+		print(sp.begin(), sp.end());
+		std::cout << "longest " << sp.longestSpan() << std::endl;
+		std::cout << "shortest " << sp.shortestSpan() << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
 	try
 	{
-		test1();
-		// testVecSize0AndAddElem();
-		// TestIntMaxMin();
-		// testOnlySameNum();
-		adhocTest(0, INTMAX, 10000);
-	}
-	catch (Span::SpanIsFullException const &e)
+		std::cout << std::endl << "overflow test" << std::endl;
+		Span<int> *sp = new Span<int>(5);
+		sp->addNumber(int_max);
+		sp->addNumber(3);
+		sp->addNumber(17);
+		sp->addNumber(9);
+		sp->addNumber(-1);
+		print(sp->begin(), sp->end());
+		std::cout << "longest " << sp->longestSpan() << std::endl;
+		std::cout << "shortest " << sp->shortestSpan() << std::endl;
+		delete sp;
+	}	
+	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what() << '\n';
 	}
-	catch (Span::SpanHasNoTwoElemsException const &e)
+	try
 	{
-		std::cerr << e.what() << std::endl;
-	}
-	catch (std::overflow_error &e)
+		std::cout << std::endl << "underflow test" << std::endl;
+		Span<int> *sp = new Span<int>(5);
+		sp->addNumber(int_min);
+		sp->addNumber(0);
+		print(sp->begin(), sp->end());
+		std::cout << "longest " << sp->longestSpan() << std::endl;
+		std::cout << "shortest " << sp->shortestSpan() << std::endl;
+		delete sp;
+	}	
+	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << e.what() << '\n';
 	}
-	catch (std::exception const &e)
+	try
 	{
-		std::cerr << e.what() << std::endl;
+		std::cout << "iterator test" << std::endl;
+		std::vector<int> vec;
+		for (int i = 0; i < 10000; i++)
+		{
+			vec.push_back(i);
+		}
+		Span<int> sp(100);
+		sp.addNumber(vec.begin(), vec.end());
+		print(sp.begin(), sp.end());
+		std::cout << "longest " << sp.longestSpan() << std::endl;
+		std::cout << "shortest " << sp.shortestSpan() << std::endl;
 	}
-	catch (...)
+	catch(const std::exception& e)
 	{
-		std::cerr << "some other exception" << std::endl;
+		std::cerr << e.what() << '\n';
 	}
-	return(0);
+	return (0);
 }
