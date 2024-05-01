@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+         #
+#    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/04 14:12:23 by mogawa            #+#    #+#              #
-#    Updated: 2024/04/26 23:38:20 by mogawa           ###   ########.fr        #
+#    Updated: 2024/05/01 10:36:44 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,14 @@ SRC			=	Fixed.gtest.cpp Fixed.cpp
 endif
 
 ifdef WITH_LEAK
-CXXFLAGS	=	-Wall -Wextra -g3 -O0 -DDEBUG
+CXXFLAGS	:=	$(filter-out -Werror, $(CXXFLAGS))
+CXXFLAGS	+=	-g3 -O0
 endif
 
 ifdef WITH_ASAN
-CXXFLAGS	=	-Wall -Wextra -g3 -O0 -fsanitize=address
+CXXFLAGS	:=	$(filter-out -Werror, $(CXXFLAGS))
+CXXFLAGS	+=	-g3 -O0 -fsanitize=address
+LDFLAGS		=	-fsanitize=address
 endif
 
 all: $(TARGET)
@@ -45,7 +48,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) $(INC) -c $< -o $@
 
 $(TARGET):	$(OBJ)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+	$(CXX) $(LDFLAGS) $^ -o $@
 
 # gtest: fclean
 # 	$(MAKE) all WITH_GTEST=1
@@ -53,7 +56,7 @@ $(TARGET):	$(OBJ)
 
 leak: fclean
 	$(MAKE) all WITH_LEAK=1
-	./$(TARGET)
+	leaks -q -atExit -- ./$(TARGET)
 
 debug: fclean
 	$(MAKE) all WITH_ASAN=1
